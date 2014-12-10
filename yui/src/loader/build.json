@@ -1,0 +1,10 @@
+{
+    "name": "moodle-filter_easychem-loader",
+    "builds": {
+        "moodle-filter_easychem-loader": {
+            "jsfiles": [
+                "loader.js"
+            ]
+        }
+    }
+}
