@@ -45,25 +45,41 @@ class filter_easychem extends moodle_text_filter {
      * @param context $context The current context.
      */
     public function setup($page, $context) {
-        global $CFG, $easychem_configured;
+        global $CFG;
         // This only requires execution once per request.
-        $easychem_configured = false;
-        if (empty($easychem_configured)) {
+        static $jsinitialised = false;
 
+        if (empty($jsinitialised)) {
             $url = $CFG->wwwroot . '/filter/easychem/js/easychem.js';
-
             $url = new moodle_url($url);
-
             $moduleconfig = array(
                 'name' => 'easychem',
                 'fullpath' => $url
             );
-
+            echo $url; 
             $page->requires->js_module($moduleconfig);
 
-	    $page->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
+/*
+            $url = 'http://localhost/moodle27/filter/easychem/js/jquery-latest.js';
+            $url = new moodle_url($url);
 
-            $easychem_configured = true;
+            $moduleconfig2 = array(
+                'name' => 'jquery',
+                'fullpath' => $url
+            );
+
+            $page->requires->js_module($moduleconfig2);
+*/
+
+
+            $config = get_config('filter_easychem', 'mathjaxconfig');
+//            $lang = 'en';
+            //print_object($config);
+//            $params = array('mathjaxconfig' => $config, 'lang' => $lang);
+//            $page->requires->jquery();
+//            $page->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.configure', array($params));
+
+            $jsinitialised = true;
         }
     }
 
@@ -77,23 +93,44 @@ class filter_easychem extends moodle_text_filter {
      * @return string text after processing
      */
     public function filter($text, array $options = array()) {
-        global $CFG, $easychem_configured, $PAGE;
-
-
-//echo "easychem_configured=".$easychem_configured;
+        global $CFG, $easychem_configured;
 
         $search = "(\\%(.*?)\\%)is";
         $newtext = preg_replace_callback($search, array($this, 'callback'), $text);
+/*
+        if (($newtext != $text) && !isset($easychem_configured)) {
+        $easychem_configured = true;
+
+        $script = '<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>
+                   <script src="'.$CFG->wwwroot.'/filter/easychem/js/easychem.js" type="text/javascript"></script>
+                   ';
+        
+        //$text = $script.$newtext;
+        $text = $newtext;
+
+        }
+*/
+       //$script = '';
+
+     //  $script = '<script src="http://localhost/moodle27/filter/easychem/js/easychem.js" type="text/javascript"></script>';
 
 
-       // $PAGE->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
+
+       //$script = '<script src="http://code.jquery.com/jquery-latest.js" type="text/javascript"></script>';
         return $newtext;
     }
     
     private function callback(array $matches) {
         global $PAGE;
-        
-        $embed = '<div class="echem-formula" align="center">'.$matches[1].'</div>'; 
+        //$PAGE->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
+	$script = '<script type="text/javascript">
+		 YUI().use(\'node\', \'easychem\', function (Y) {
+		    var src = Y.one(\'#test\').get(\'innerHTML\');
+		    var res = ChemSys.compile(src);
+		    ChemSys.draw(Y.one(\'#test\').empty(), res);
+		});</script>';
+        $embed = '<span class="easyChemConfig auto-compile"></span><div id="test" eq="'.$matches[1].'" class="echem-formula" align="center">'.$matches[1].'</div>'.$script;
+        //$embed =$div; 
         return $embed;
     }
 }

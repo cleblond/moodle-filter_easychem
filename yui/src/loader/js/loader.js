@@ -54,8 +54,8 @@ M.filter_easychem = M.filter_easychem || {
         // See "http://docs.mathjax.org/en/latest/dynamic.html#ajax-mathjax"
         var script = document.createElement("script");
         script.type = "text/x-easychem-config";
-        alert("Here");
-        console.log(params);
+        //alert("Here");
+        //console.log(params);
         script[(window.opera ? "innerHTML" : "text")] = params.mathjaxconfig;
 
         //document.getElementsByTagName("head")[0].appendChild(script);
@@ -97,12 +97,19 @@ M.filter_easychem = M.filter_easychem || {
     typeset: function() {
         if (!this._configured) {
             var self = this;
-            Y.use('easychem', function() {
-                self._setLocale();
-                Y.all('.filter_easychem_equation').each(function(node) {
-                    if (typeof MathJax !== "undefined") {
-                        MathJax.Hub.Queue(["Typeset", MathJax.Hub, node.getDOMNode()]);
-                    }
+            Y.use('node', 'easychem', function() {
+                //self._setLocale();
+                Y.all('.echem-formula').each(function(node) {
+                   //console.log('here');
+                            var src = node.get('innerHTML');
+                            //src = src.replace("&amp;", "&").replace("&gt;", ">").replace("&lt;", "<");
+                            var res = ChemSys.compile(src);
+                            //var elem = document.getElementById(node.get('id'));
+                            //console.log(elem);
+                            
+                            //node.set('innerHTML', '');
+                            ChemSys.draw(node.empty(), res);
+//                            ChemSys.draw(node.one('#'+node.get('id')).empty(), res);
                 });
             });
         }
@@ -115,6 +122,7 @@ M.filter_easychem = M.filter_easychem || {
      */
     contentUpdated: function(event) {
         var self = this;
+        //console.log('Content Updated JS');
         Y.use('easychem', function() {
             self._setLocale();
             event.nodes.each(function (node) {
