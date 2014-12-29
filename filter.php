@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -28,45 +27,30 @@ defined('MOODLE_INTERNAL') || die();
 
 class filter_easychem extends moodle_text_filter {
 
-     /**
-      * @var array global configuration for this filter
-      *
-      * This might be eventually moved into parent class if we found it
-      * useful for other filters, too.
-      */
     protected static $globalconfig;
 
-
-
     /*
-     * Add the javascript to enable mathjax processing on this page.
+     * Add the javascript to enable easychem.js processing on this page.
      *
      * @param moodle_page $page The current page.
      * @param context $context The current context.
      */
     public function setup($page, $context) {
-        global $CFG, $easychem_configured;
+        global $CFG;
         // This only requires execution once per request.
-        $easychem_configured = false;
-        if (empty($easychem_configured)) {
-
+        $easychemconfigured = false;
+        if (empty($easychemconfigured)) {
             $url = $CFG->wwwroot . '/filter/easychem/js/easychem.js';
-
             $url = new moodle_url($url);
-
             $moduleconfig = array(
                 'name' => 'easychem',
                 'fullpath' => $url
             );
-
             $page->requires->js_module($moduleconfig);
-
-	    $page->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
-
-            $easychem_configured = true;
+            $page->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
+            $easychemconfigured = true;
         }
     }
-
 
     /**
      * Apply the filter to the text
@@ -77,23 +61,15 @@ class filter_easychem extends moodle_text_filter {
      * @return string text after processing
      */
     public function filter($text, array $options = array()) {
-        global $CFG, $easychem_configured, $PAGE;
-
-
-//echo "easychem_configured=".$easychem_configured;
-
+        global $CFG, $PAGE;
         $search = "(\\%(.*?)\\%)is";
         $newtext = preg_replace_callback($search, array($this, 'callback'), $text);
-
-
-       // $PAGE->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
         return $newtext;
     }
-    
+
     private function callback(array $matches) {
         global $PAGE;
-        
-        $embed = '<div class="echem-formula" align="center">'.$matches[1].'</div>'; 
+        $embed = '<div class="echem-formula" align="center">'.$matches[1].'</div>';
         return $embed;
     }
 }

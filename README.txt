@@ -1,6 +1,10 @@
-Moodle 2.7+ filter which converts text between % to easychem chemical structures and formulas.  It utilizes easychem.js which was written by Peter Win - (www.easychem.org ).
+Moodle 2.7+ filter which converts text between % to easychem chemical
+structures and formulas.  It utilizes easychem.js which was written
+by Peter Win - (www.easychem.org ).
 
-Note: This filter was designed to be used with the Easychem Atto Editor (moodle-atto_easychem).  You should install it after this for best results.
+Note: This filter was designed to be used with the Easychem
+Atto Editor (moodle-atto_easychem).  You should install it after
+this for best results.
 
 1) Download the zip file from my git hub site.
    https://github.com/cleblond/moodle-filter_easychem/archive/master.zip

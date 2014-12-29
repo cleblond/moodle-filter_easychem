@@ -1,5 +1,4 @@
 <?php
-
 // This file is part of Moodle - http://moodle.org/
 //
 // Moodle is free software: you can redistribute it and/or modify
@@ -20,7 +19,7 @@
  *
  * @package    filter
  * @subpackage easychem
- * @copyright  2013 Julian Ridden <julian@moodleman.net>
+ * @copyright  2014 onwards Carl LeBlond
  * @license    http://www.gnu.org/copyleft/gpl.html GNU GPL v3 or later
  */
 
@@ -30,4 +29,4 @@ $plugin->version   = 2013112100;            // The current plugin version (Date:
 $plugin->maturity = MATURITY_STABLE;        // this version's maturity level.
 $plugin->release = '2.0 (Build: 20131121)';
 $plugin->requires  = 2013050100;           // Requires this Moodle version
-$plugin->component = 'filter_easychem'; // Full name of the plugin (used for diagnostics)
+$plugin->component = 'filter_easychem'; // Full name of the plugin (used for diagnostics).
