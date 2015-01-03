@@ -35,11 +35,12 @@ class filter_easychem extends moodle_text_filter {
      * @param moodle_page $page The current page.
      * @param context $context The current context.
      */
-    public function setup($page, $context) {
+ /*   public function setup($page, $context) {
         global $CFG;
         // This only requires execution once per request.
-        $easychemconfigured = false;
+        static $easychemconfigured = false;
         if (empty($easychemconfigured)) {
+            echo "HERE";
             $url = $CFG->wwwroot . '/filter/easychem/js/easychem.js';
             $url = new moodle_url($url);
             $moduleconfig = array(
@@ -48,9 +49,9 @@ class filter_easychem extends moodle_text_filter {
             );
             $page->requires->js_module($moduleconfig);
             $page->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
-            $easychemconfigured = true;
+            $easychemconfigured = true; 
         }
-    }
+    }  */
 
     /**
      * Apply the filter to the text
@@ -61,14 +62,25 @@ class filter_easychem extends moodle_text_filter {
      * @return string text after processing
      */
     public function filter($text, array $options = array()) {
-        global $CFG, $PAGE;
+        global $CFG, $PAGE, $easychemconfigured;
         $search = "(\\%(.*?)\\%)is";
         $newtext = preg_replace_callback($search, array($this, 'callback'), $text);
+        if (($newtext != $text) && !isset($easychemconfigured)) {
+            $easychemconfigured = true;
+            $url = $CFG->wwwroot . '/filter/easychem/js/easychem.js';
+            $url = new moodle_url($url);
+            $moduleconfig = array(
+                'name' => 'easychem',
+                'fullpath' => $url
+            );
+            $PAGE->requires->js_module($moduleconfig);
+            $PAGE->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
+        }
         return $newtext;
     }
 
     private function callback(array $matches) {
-        global $PAGE;
+        global $CFG, $PAGE;
         $embed = '<div class="echem-formula" align="center">'.$matches[1].'</div>';
         return $embed;
     }
