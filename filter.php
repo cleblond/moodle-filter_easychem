@@ -28,31 +28,6 @@ defined('MOODLE_INTERNAL') || die();
 class filter_easychem extends moodle_text_filter {
 
     protected static $globalconfig;
-
-    /*
-     * Add the javascript to enable easychem.js processing on this page.
-     *
-     * @param moodle_page $page The current page.
-     * @param context $context The current context.
-     */
- /*   public function setup($page, $context) {
-        global $CFG;
-        // This only requires execution once per request.
-        static $easychemconfigured = false;
-        if (empty($easychemconfigured)) {
-            echo "HERE";
-            $url = $CFG->wwwroot . '/filter/easychem/js/easychem.js';
-            $url = new moodle_url($url);
-            $moduleconfig = array(
-                'name' => 'easychem',
-                'fullpath' => $url
-            );
-            $page->requires->js_module($moduleconfig);
-            $page->requires->yui_module('moodle-filter_easychem-loader', 'M.filter_easychem.typeset');
-            $easychemconfigured = true; 
-        }
-    }  */
-
     /**
      * Apply the filter to the text
      *
