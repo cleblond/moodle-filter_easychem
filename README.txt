@@ -1,4 +1,4 @@
-Moodle 2.7+ filter which converts text between % to easychem chemical
+Moodle 2.7+ filter which converts text between [%   %] to easychem chemical
 structures and formulas.  It utilizes easychem.js which was written
 by Peter Win - (www.easychem.org ).
 

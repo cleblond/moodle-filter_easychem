@@ -38,7 +38,7 @@ class filter_easychem extends moodle_text_filter {
      */
     public function filter($text, array $options = array()) {
         global $CFG, $PAGE, $easychemconfigured;
-        $search = "(\\%(.*?)\\%)is";
+        $search = "(\[\%(.*?)\\%])is";
         $newtext = preg_replace_callback($search, array($this, 'callback'), $text);
         if (($newtext != $text) && !isset($easychemconfigured)) {
             $easychemconfigured = true;
