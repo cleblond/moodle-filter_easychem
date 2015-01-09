@@ -30,6 +30,12 @@ M.filter_easychem = M.filter_easychem || {
             Y.use('node', 'easychem', function() {
                 Y.all('.echem-formula').each(function(node) {
                             var src = node.get('innerHTML');
+                            // Take care of problem with | character and replace problem!
+                            var str = src.split("|");
+                            for(var i=0; i < str.length; i++) {
+                                str[i] = str[i].replace("&gt;", ">").replace("&lt;","<");
+                            }
+                            src = str.join("|");
                             var res = ChemSys.compile(src);
                             ChemSys.draw(node.empty(), res);
                 });
