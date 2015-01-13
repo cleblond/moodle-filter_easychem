@@ -33,7 +33,7 @@ M.filter_easychem = M.filter_easychem || {
                             // Take care of problem with | character and replace problem!
                             var str = src.split("|");
                             Y.log(str);
-                            for(var i=0; i < str.length; i++) {
+                            for(var i = 0; i < str.length; i++) {
                                 str[i] = str[i].replace("&gt;", ">").replace("&lt;","<");
                             }
                             src = str.join("|");
