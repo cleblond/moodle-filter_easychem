@@ -12,3 +12,4 @@ this for best results.
 3) Proceed to the notifications section of the admin panel.
 4) Confirm installation of moodle-filter_easychem
 5) Proceed to Site administration > Plugins > filters > manage filters and activate the filter.
+
